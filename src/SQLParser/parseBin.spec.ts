@@ -1,4 +1,4 @@
-import parseBin from './parseBin';
+import { parseBin } from './parseBin';
 
 //field, as, extent, maxbins
 test('parse bin', () => {

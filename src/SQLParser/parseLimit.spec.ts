@@ -1,4 +1,4 @@
-import parseLimit from './parseLimit';
+import { parseLimit } from './parseLimit';
 
 test('parse limit', () => {
   expect(parseLimit({}, {})).toStrictEqual({});

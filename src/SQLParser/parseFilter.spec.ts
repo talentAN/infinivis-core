@@ -1,4 +1,4 @@
-import parseFilter from './parseFilter';
+import { parseFilter } from './parseFilter';
 
 test('parse filter', () => {
   expect(parseFilter({}, {} as any)).toStrictEqual({});

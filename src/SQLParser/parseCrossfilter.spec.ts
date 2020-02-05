@@ -1,4 +1,4 @@
-import parseCrossfilter from './parseCrossfilter';
+import { parseCrossfilter } from './parseCrossfilter';
 
 test('parse crossfilter', () => {
   expect(parseCrossfilter({}, {} as any)).toStrictEqual({});

@@ -1,4 +1,4 @@
-import parseWith from './parseWith';
+import { parseWith } from './parseWith';
 
 test('parse project', () => {
   expect(parseWith({}, {} as any)).toStrictEqual({});

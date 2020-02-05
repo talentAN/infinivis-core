@@ -1,4 +1,4 @@
-import parseSort from './parseSort';
+import { parseSort } from './parseSort';
 
 test('parse sort', () => {
   expect(parseSort({}, {} as any)).toStrictEqual({});

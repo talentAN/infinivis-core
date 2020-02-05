@@ -1,4 +1,4 @@
-import parseResolvefilter from './parseResolvefilter';
+import { parseResolvefilter } from './parseResolvefilter';
 
 test('parse resolve filter', () => {
   expect(parseResolvefilter({}, {} as any)).toStrictEqual({});

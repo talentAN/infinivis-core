@@ -1,4 +1,4 @@
-import parseExpression from './parseExpression';
+import { parseExpression } from './parseExpression';
 
 test('=,<>,<,>,<=,>=', () => {
   expect(parseExpression({ type: '=', left: '1', right: '2' })).toBe(`1 = '2'`);

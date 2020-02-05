@@ -1,4 +1,4 @@
-import parseProject from './parseProject';
+import { parseProject } from './parseProject';
 
 test('parse project', () => {
   expect(parseProject({}, {} as any)).toStrictEqual({});

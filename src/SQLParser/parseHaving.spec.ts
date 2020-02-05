@@ -1,4 +1,4 @@
-import parseHaving from './parseHaving';
+import { parseHaving } from './parseHaving';
 
 test('parse limit', () => {
   expect(parseHaving({}, {})).toStrictEqual({});

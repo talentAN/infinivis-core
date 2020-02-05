@@ -1,4 +1,4 @@
-import parseSource from './parseSource';
+import { parseSource } from './parseSource';
 
 test('parse Source', () => {
   expect(parseSource({}, {} as any)).toStrictEqual({});
