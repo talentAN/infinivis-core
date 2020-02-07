@@ -2,7 +2,7 @@
   "name": "infini-core",
   "version": "0.1.0",
   "description": "Traverse and transform objects to SQL",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": "https://github.com/shanghaikid/infini-core.git",
   "author": "ruiyi.jiang <ruiyi.jiang@zilliz.com>",
   "license": "MIT",
@@ -16,6 +16,8 @@
   },
   "scripts": {
     "test": "jest --watch",
+    "build": "tsc --build",
+    "build:types": "tsc -d --declarationDir dist --declarationMap --emitDeclarationOnly",
     "prettier": "prettier --write src/**/*.ts"
   }
 }
