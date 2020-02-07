@@ -5,6 +5,7 @@ import { parseSort } from './parseSort';
 import { parseLimit } from './parseLimit';
 import { parseFilter } from './parseFilter';
 import { parseResolvefilter } from './parseResolvefilter';
+import { parseCrossfilter } from './parseCrossfilter';
 import { parseProject } from './parseProject';
 import { parseWith } from './parseWith';
 import { parseHaving } from './parseHaving';
@@ -19,28 +20,11 @@ export declare type expressions = {
 export declare type transformers = {
     [key: string]: TransformParser;
 };
-export declare class SQLParser {
+declare class SQLParser {
     static registerTransform(type: string, parser: TransformParser): void;
     static registerExpression(type: string, parser: ExpressionParser): void;
     static parseExpression(expression: any): string;
     static parseTransform(sql: SQL, transform: Transform): SQL;
 }
-export declare const modules: {
-    SQLParser: typeof SQLParser;
-    parseExpression: typeof parseExpression;
-    parseAggregate: typeof parseAggregate;
-    parseBin: typeof parseBin;
-    parseSort: typeof parseSort;
-    parseLimit: typeof parseLimit;
-    parseFilter: typeof parseFilter;
-    parseResolvefilter: typeof parseResolvefilter;
-    parseCrossfilter: (sql: SQL, transform: Transform) => SQL;
-    parseProject: typeof parseProject;
-    parseWith: typeof parseWith;
-    parseHaving: typeof parseHaving;
-    parseSource: typeof parseSource;
-    reducer: typeof reducer;
-    reduceToString: typeof reduceToString;
-    toSQL: typeof toSQL;
-};
+export { SQLParser, parseExpression, parseAggregate, parseBin, parseSort, parseLimit, parseFilter, parseResolvefilter, parseCrossfilter, parseProject, parseWith, parseHaving, parseSource, reducer, reduceToString, toSQL, };
 //# sourceMappingURL=index.d.ts.map
