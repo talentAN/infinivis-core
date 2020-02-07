@@ -1,13 +1,13 @@
-import { Core, Parsers } from './';
+import { InfiniCollection, SqlParser } from './';
 
 function concat(transform: any) {
   return (transforms: any) => transforms.concat(transform);
 }
 
 test('Integration Test', () => {
-  const collection = new Core.InfiniCollection({
-    reducer: Parsers.sql.reducer,
-    stringify: Parsers.sql.toSQL,
+  const collection = new InfiniCollection({
+    reducer: SqlParser.reducer,
+    stringify: SqlParser.toSQL,
   });
   const xFilterNode1 = collection.create('table1');
   const xFilterNode2 = collection.create('table2');
