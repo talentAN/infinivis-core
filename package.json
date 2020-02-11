@@ -15,7 +15,8 @@
     "jest": "^25.1.0"
   },
   "scripts": {
-    "test": "jest --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "build": "tsc --build",
     "build:types": "tsc -d --declarationDir dist --declarationMap --emitDeclarationOnly",
     "prettier": "prettier --write src/**/*.ts",
