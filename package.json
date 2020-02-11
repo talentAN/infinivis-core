@@ -15,7 +15,7 @@
     "jest": "^25.1.0"
   },
   "scripts": {
-    "test": "jest",
+    "test": "./node_modules/.bin/jest",
     "test:watch": "jest --watch",
     "build": "tsc --build",
     "build:types": "tsc -d --declarationDir dist --declarationMap --emitDeclarationOnly",
