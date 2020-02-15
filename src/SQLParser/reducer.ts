@@ -2,14 +2,14 @@ import { SQLParser } from '.';
 import { SQL, Transform } from '../types';
 import { InfiniNode } from '../core';
 
-export function reducer(data: InfiniNode<Transform>, acc: SQL = {}) {
-  let transform: Array<Transform> = [...data.transform];
+export function reducer<T = Transform>(data: InfiniNode<T>, acc: SQL = {}) {
+  let transform: Array<T> = [...data.transform];
   if (typeof data.source !== 'undefined') {
     let source = data.source;
     while (typeof source !== 'string') {
       source = source.source;
     }
-    transform.push({ source: source, type: 'source' });
+    transform.push({ source: source, type: 'source' } as any);
   }
   return transform.reduce(
     (acc: any, currentTransform: any) =>
@@ -18,7 +18,7 @@ export function reducer(data: InfiniNode<Transform>, acc: SQL = {}) {
   );
 }
 
-export function reduceToString(data: InfiniNode<Transform>, acc: SQL = {}) {
+export function reduceToString<T>(data: InfiniNode<T>, acc: SQL = {}) {
   return toSQL(reducer(data, acc));
 }
 

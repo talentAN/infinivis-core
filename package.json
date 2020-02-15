@@ -1,6 +1,6 @@
 {
   "name": "infinivis-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Traverse and transform objects to SQL",
   "main": "dist/index.js",
   "repository": "https://github.com/shanghaikid/infinivis-core.git",

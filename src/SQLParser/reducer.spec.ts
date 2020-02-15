@@ -1,10 +1,10 @@
 import { reducer } from './reducer';
+import { Transform } from '../types';
 
 test('Parser', () => {
   expect(
-    reducer({
+    reducer<Transform>({
       type: 'root',
-      name: 'test',
       source: 'taxis',
       transform: [
         {
@@ -37,7 +37,7 @@ test('Parser', () => {
           },
         },
       ],
-    })
+    } as any)
   ).toStrictEqual({
     select: [
       'CASE WHEN binCol >= 3950611.6 THEN 11 else cast((cast(binCol AS float) - -21474830) * 4.719682036909046e-7 AS int) end AS binColAs',
