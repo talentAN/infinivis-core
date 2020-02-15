@@ -1,11 +1,13 @@
 import * as expr from './helpers/expression-builders';
 import * as rel from './helpers/transform-builders';
-import { InfiniCollection, InfiniNode } from './core';
 import * as SqlParser from './SQLParser';
+
+export * from './core';
+export * from './types';
 
 const Helper = {
   ...expr,
   ...rel,
 };
 
-export { SqlParser, Helper, InfiniCollection, InfiniNode };
+export { SqlParser, Helper };

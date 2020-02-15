@@ -4,11 +4,11 @@ export class InfiniCollection {
         this.reducer = params.reducer;
         this.stringify = params.stringify;
     }
-    create(source) {
+    create(source, transform) {
         const node = new InfiniNode({
             type: 'root',
             source: source,
-            transform: [],
+            transform: transform,
             reducer: this.reducer,
             stringify: this.stringify,
         });

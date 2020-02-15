@@ -20,11 +20,11 @@ export declare type expressions = {
 export declare type transformers = {
     [key: string]: TransformParser;
 };
-declare class SQLParser {
+export declare class SQLParser {
     static registerTransform(type: string, parser: TransformParser): void;
     static registerExpression(type: string, parser: ExpressionParser): void;
     static parseExpression(expression: any): string;
     static parseTransform(sql: SQL, transform: Transform): SQL;
 }
-export { SQLParser, parseExpression, parseAggregate, parseBin, parseSort, parseLimit, parseFilter, parseResolvefilter, parseCrossfilter, parseProject, parseWith, parseHaving, parseSource, reducer, reduceToString, toSQL, };
+export { parseExpression, parseAggregate, parseBin, parseSort, parseLimit, parseFilter, parseResolvefilter, parseCrossfilter, parseProject, parseWith, parseHaving, parseSource, reducer, reduceToString, toSQL, };
 //# sourceMappingURL=index.d.ts.map

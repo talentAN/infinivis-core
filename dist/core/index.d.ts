@@ -19,7 +19,7 @@ export declare class InfiniCollection<T> {
         reducer: Reducer<T>;
         stringify: Stringify;
     });
-    create(source: string): InfiniNode<T>;
+    create(source: string, transform?: T[]): InfiniNode<T>;
     appendChild(child: InfiniNode<T>): InfiniNode<T>;
     setTransform(setter: SetTransform<T>): Array<Array<T>>;
 }

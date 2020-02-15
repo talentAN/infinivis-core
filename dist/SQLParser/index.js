@@ -25,7 +25,7 @@ let transformers = {
     crossfilter: parseCrossfilter,
     with: parseWith,
 };
-class SQLParser {
+export class SQLParser {
     static registerTransform(type, parser) {
         transformers[type] = parser;
     }
@@ -45,4 +45,4 @@ class SQLParser {
         return sql;
     }
 }
-export { SQLParser, parseExpression, parseAggregate, parseBin, parseSort, parseLimit, parseFilter, parseResolvefilter, parseCrossfilter, parseProject, parseWith, parseHaving, parseSource, reducer, reduceToString, toSQL, };
+export { parseExpression, parseAggregate, parseBin, parseSort, parseLimit, parseFilter, parseResolvefilter, parseCrossfilter, parseProject, parseWith, parseHaving, parseSource, reducer, reduceToString, toSQL, };

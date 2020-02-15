@@ -1,5 +1,4 @@
 import { InfiniCollection, SqlParser } from './';
-
 function concat(transform: any) {
   return (transforms: any) => transforms.concat(transform);
 }

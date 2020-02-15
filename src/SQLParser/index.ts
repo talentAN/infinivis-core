@@ -33,7 +33,7 @@ let transformers: transformers = {
   with: parseWith,
 };
 
-class SQLParser {
+export class SQLParser {
   static registerTransform(type: string, parser: TransformParser) {
     transformers[type] = parser;
   }
@@ -57,7 +57,6 @@ class SQLParser {
 }
 
 export {
-  SQLParser,
   parseExpression,
   parseAggregate,
   parseBin,
