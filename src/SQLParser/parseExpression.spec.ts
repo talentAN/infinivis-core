@@ -329,13 +329,36 @@ test('st_distance', () => {
 })
 
 test('st_within', () => {
-  expect(parseExpression({
-    type: 'st_within',
-    x: 1,
-    y: 2,
-    px: [3, 4, 5, 6],
-    py: [7, 8, 9, 10]
-  })).toBe(
+  expect(
+    parseExpression({
+      type: 'st_within',
+      x: 1,
+      y: 2,
+      px: [3, 4, 5, 6],
+      py: [7, 8, 9, 10]
+    })
+  ).toBe(
     `st_within(st_point(1, 2),'polygon((3 7, 4 8, 5 9, 6 10))`
+  )
+})
+
+test('trunc', () => {
+  expect(
+    parseExpression({
+      type: 'trunc',
+      unit: 'hour',
+      field: 'tpep_dropoff_datetime',
+    })
+  ).toBe(
+    `trunc(tpep_dropoff_datetime, hour)`
+  )
+  expect(
+    parseExpression({
+      type: 'trunc',
+      unit: 'day',
+      field: 'tpep_dropoff_datetime',
+    })
+  ).toBe(
+    `date(tpep_dropoff_datetime)`
   )
 })
