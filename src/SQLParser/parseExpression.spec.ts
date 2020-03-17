@@ -314,3 +314,28 @@ test('circle', () => {
     })
   ).toBe(`is_in_circle(colLon, colLat, 1000, 123, 2123)`);
 });
+
+test('st_distance', () => {
+  expect(
+    parseExpression({
+      type: 'st_distance',
+      fromlon: '-72',
+      fromlat: '53',
+      tolon: 'dropoff_lon',
+      tolat: 'dropoff_lat',
+      distance: 365
+    })
+  ).toBe(`st_distance(st_transform(st_point(dropoff_lon, dropoff_lat), 'epsg:4326', 'epsg:3857'), st_transform('point(-72 53)', 'epsg:4326', 'epsg:3857')) < 365)`);
+})
+
+test('st_within', () => {
+  expect(parseExpression({
+    type: 'st_within',
+    x: 1,
+    y: 2,
+    px: [3, 4, 5, 6],
+    py: [7, 8, 9, 10]
+  })).toBe(
+    `st_within(st_point(1, 2),'polygon((3 7, 4 8, 5 9, 6 10))`
+  )
+})
