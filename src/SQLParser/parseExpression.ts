@@ -150,7 +150,7 @@ export function parseExpression(expression: any): string {
     case 'average':
       return 'avg(' + expression.field + ')';
     case 'polygon':
-      return `is_in_polygon(${expression.x}, ${expression.y}, ARRAY[${expression.px}], ARRAY[${expression.py}])`; // use in old megawise
+      return `is_in_polygon(${expression.x}, ${expression.y}, ARRAY[${expression.px}], ARRAY[${expression.py}])`;
     case 'gis_mapping_lon':
       return `gis_discrete_trans_scale_long_epsg_4326_900913 (${
         expression.domainStart
@@ -172,23 +172,19 @@ export function parseExpression(expression: any): string {
         expression.domain[1]
         }, 0, ${expression.height - 1}, ${expression.field}::float)`;
     case 'circle':
-      return `is_in_circle(${expression.fromlon}, ${expression.fromlat}, ${expression.distance}, ${expression.tolon}, ${expression.tolat})`; // use in old megawise
-    //TODO: in old megawise version call 'circle',remove it when 'st_distance' full supported
+      return `is_in_circle(${expression.fromlon}, ${expression.fromlat}, ${expression.distance}, ${expression.tolon}, ${expression.tolat})`;
     case 'st_distance':
       return `st_distance(st_transform(st_point(${expression.tolon}, ${expression.tolat}), 'epsg:4326', 'epsg:3857'), st_transform('point(${expression.fromlon} ${expression.fromlat})', 'epsg:4326', 'epsg:3857')) < ${expression.distance})`;
     //TODO: change actions in /client/src/widgets/Utils/filters/map.ts line 68|69 for better experience later;
-    // in old megawise version call 'polygon', remove it when 'st_within' full supported
     case 'st_within':
       const polygon = expression.px.map((x: any, index: number) => `${x} ${expression.py[index]}`).join(', ')
       return `st_within(st_point(${expression.x}, ${expression.y}),'polygon((${polygon}))`;
-    //TODO: in old megawise version call 'date_trunc',remove it when 'trunc' full supported
-    // make sure if trunc support hour | minite | second | millisec
+    //TODO:  make sure if trunc support hour | minite | second | millisec
     case 'trunc':
       return expression.unit === 'day'
         ? `date(${expression.field})`
         : `trunc(${expression.field}, ${expression.unit})`
-    // # extract('hour' from tpep_dropoff_datetime) -> 
-    //TODO: in old megawise version call 'extract' in line 106, remove it when new 'extract' full supported
+    //TODO: old 'extract' in line 106, remove it when new 'extract' full supported
     case 'extract':
       return `${expression.unit}(${expression.field})`
     case 'project':
