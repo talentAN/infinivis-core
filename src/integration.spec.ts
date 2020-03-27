@@ -62,7 +62,7 @@ test('Integration Test', () => {
   );
 
   expect(childNode2.reduceToString()).toEqual(
-    'SELECT CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end AS key0, count(*) AS col FROM table1 WHERE ((binCol >= 0 AND binCol <= 30) OR (binCol IS NULL)) GROUP BY key0 HAVING ((CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end) >= 0 AND (CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end) < 30 OR (CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end) IS NULL)'
+    'SELECT CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end AS key0, count(*) AS col FROM table1 WHERE ((binCol >= 0 AND binCol <= 30) OR (binCol IS NULL)) GROUP BY key0 HAVING (key0 >= 0 AND key0 < 30) OR key0 IS NULL)'
   );
 
   collection.setTransform(
@@ -90,7 +90,7 @@ test('Integration Test', () => {
   );
 
   expect(childNode2.reduceToString()).toEqual(
-    'SELECT CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end AS key0, count(*) AS col FROM table1 WHERE ((binCol >= 0 AND binCol <= 30) OR (binCol IS NULL)) AND (betweenCol BETWEEN 22222 AND 33333) GROUP BY key0 HAVING ((CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end) >= 0 AND (CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end) < 30 OR (CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end) IS NULL)'
+    'SELECT CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end AS key0, count(*) AS col FROM table1 WHERE ((binCol >= 0 AND binCol <= 30) OR (binCol IS NULL)) AND (betweenCol BETWEEN 22222 AND 33333) GROUP BY key0 HAVING (key0 >= 0 AND key0 < 30) OR key0 IS NULL)'
   );
 
   xFilterNode1.setTransform((t: any) => {
@@ -141,6 +141,6 @@ test('Integration Test', () => {
   );
 
   expect(childNode2.reduceToString()).toEqual(
-    "SELECT CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end AS key0, count(*) AS col FROM table1 WHERE ((binCol >= 0 AND binCol <= 30) OR (binCol IS NULL)) AND (betweenCol BETWEEN 22222 AND 33333) AND (type = 'cash') GROUP BY key0 HAVING ((CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end) >= 0 AND (CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end) < 30 OR (CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end) IS NULL)"
+    "SELECT CASE WHEN binCol >= 30 THEN 29 else cast((cast(binCol AS float) - 0) * 1 AS int) end AS key0, count(*) AS col FROM table1 WHERE ((binCol >= 0 AND binCol <= 30) OR (binCol IS NULL)) AND (betweenCol BETWEEN 22222 AND 33333) AND (type = 'cash') GROUP BY key0 HAVING (key0 >= 0 AND key0 < 30) OR key0 IS NULL)"
   );
 });

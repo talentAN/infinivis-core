@@ -34,7 +34,7 @@ test('Parser', () => {
   ).toStrictEqual({
     groupby: ['binColAs'],
     having: [
-      `((CASE WHEN binCol >= 3950611.6 THEN 11 else cast((cast(binCol AS float) - -21474830) * 4.719682036909046e-7 AS int) end) >= 0 AND (CASE WHEN binCol >= 3950611.6 THEN 11 else cast((cast(binCol AS float) - -21474830) * 4.719682036909046e-7 AS int) end) < 12 OR (CASE WHEN binCol >= 3950611.6 THEN 11 else cast((cast(binCol AS float) - -21474830) * 4.719682036909046e-7 AS int) end) IS NULL)`,
+      `(binColAs >= 0 AND binColAs < 12) OR binColAs IS NULL)`,
     ],
     select: [
       `CASE WHEN binCol >= 3950611.6 THEN 11 else cast((cast(binCol AS float) - -21474830) * 4.719682036909046e-7 AS int) end AS binColAs`,
