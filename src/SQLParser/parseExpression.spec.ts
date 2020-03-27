@@ -326,7 +326,7 @@ test('st_distance', () => {
       distance: 365,
     })
   ).toBe(
-    `st_distance(st_transform(st_point(dropoff_lon, dropoff_lat), 'epsg:4326', 'epsg:3857'), st_transform('point(-72 53)', 'epsg:4326', 'epsg:3857')) < 365)`
+    `ST_Distance (ST_Transform (ST_Point (dropoff_lon, dropoff_lat), 'epsg:4326', 'epsg:3857'), ST_Transform( 'point(-72 53)', 'epsg:4326', 'epsg:3857')) < 365`
   );
 });
 
@@ -339,7 +339,7 @@ test('st_within', () => {
       px: [3, 4, 5, 6],
       py: [7, 8, 9, 10],
     })
-  ).toBe(`ST_Within (ST_Point (1, 2), 'POLYGON ((3 7, 4 8, 5 9, 6 10))'`);
+  ).toBe(`ST_Within (ST_Point (1, 2), 'POLYGON ((3 7, 4 8, 5 9, 6 10))')`);
 });
 
 test('trunc', () => {

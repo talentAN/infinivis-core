@@ -174,7 +174,7 @@ export function parseExpression(expression: any): string {
     case 'circle':
       return `is_in_circle(${expression.fromlon}, ${expression.fromlat}, ${expression.distance}, ${expression.tolon}, ${expression.tolat})`;
     case 'st_distance':
-      return `st_distance(st_transform(st_point(${expression.tolon}, ${expression.tolat}), 'epsg:4326', 'epsg:3857'), st_transform('point(${expression.fromlon} ${expression.fromlat})', 'epsg:4326', 'epsg:3857')) < ${expression.distance})`;
+      return `ST_Distance (ST_Transform (ST_Point (${expression.tolon}, ${expression.tolat}), 'epsg:4326', 'epsg:3857'), ST_Transform( 'point(${expression.fromlon} ${expression.fromlat})', 'epsg:4326', 'epsg:3857')) < ${expression.distance}`;
     //TODO: change actions in /client/src/widgets/Utils/filters/map.ts line 68|69 for better experience later;
     case 'st_within':
       const polygon = expression.px.map((x: any, index: number) => `${x} ${expression.py[index]}`).join(', ')
