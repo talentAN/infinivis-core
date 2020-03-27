@@ -141,6 +141,17 @@ export function parseExpression(expression) {
             return `gis_discrete_trans_scale(${expression.domain[0]}, ${expression.domain[1]}, 0, ${expression.height - 1}, ${expression.field}::float)`;
         case 'circle':
             return `is_in_circle(${expression.fromlon}, ${expression.fromlat}, ${expression.distance}, ${expression.tolon}, ${expression.tolat})`;
+        case 'st_distance':
+            return `st_distance(st_transform(st_point(${expression.tolon}, ${expression.tolat}), 'epsg:4326', 'epsg:3857'), st_transform('point(${expression.fromlon} ${expression.fromlat})', 'epsg:4326', 'epsg:3857')) < ${expression.distance})`;
+        case 'st_within':
+            const polygon = expression.px.map((x, index) => `${x} ${expression.py[index]}`).join(', ');
+            return `st_within(st_point(${expression.x}, ${expression.y}),'polygon((${polygon}))`;
+        case 'trunc':
+            return expression.unit === 'day'
+                ? `date(${expression.field})`
+                : `trunc(${expression.field}, ${expression.unit})`;
+        case 'extract':
+            return `${expression.unit}(${expression.field})`;
         case 'project':
             return `${expression.field}`;
         default:

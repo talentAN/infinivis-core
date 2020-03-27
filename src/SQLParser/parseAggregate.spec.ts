@@ -79,7 +79,7 @@ test('parseAggregate', () => {
       'max(d) AS asB',
     ],
     having: [
-      `((CASE WHEN car >= 100 THEN 24 else cast((cast(car AS float) - 0) * 0.25 AS int) end) >= 0 AND (CASE WHEN car >= 100 THEN 24 else cast((cast(car AS float) - 0) * 0.25 AS int) end) < 25 OR (CASE WHEN car >= 100 THEN 24 else cast((cast(car AS float) - 0) * 0.25 AS int) end) IS NULL)`,
+      `(mycar >= 0 AND mycar < 25) OR mycar IS NULL)`,
     ],
     groupby: ['ppp', 'mycar'],
     where: [`((car >= 0 AND car <= 100) OR (car IS NULL))`],

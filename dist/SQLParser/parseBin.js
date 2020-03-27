@@ -11,6 +11,6 @@ export function parseBin(sql, transform) {
     sql.having = sql.having || [];
     sql.select.push(`${caseSql} AS ${as}`);
     sql.where.push(`((${field} >= ${extent[0]} AND ${field} <= ${extent[1]}) OR (${field} IS NULL))`);
-    sql.having.push(`((${caseSql}) >= 0 AND (${caseSql}) < ${maxbins} OR (${caseSql}) IS NULL)`);
+    sql.having.push(`(${as} >= 0 AND ${as} < ${maxbins}) OR ${as} IS NULL)`);
     return sql;
 }
