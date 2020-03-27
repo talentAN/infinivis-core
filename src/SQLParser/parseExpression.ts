@@ -178,7 +178,7 @@ export function parseExpression(expression: any): string {
     //TODO: change actions in /client/src/widgets/Utils/filters/map.ts line 68|69 for better experience later;
     case 'st_within':
       const polygon = expression.px.map((x: any, index: number) => `${x} ${expression.py[index]}`).join(', ')
-      return `ST_Within (ST_Point (${expression.x}, ${expression.y}), 'POLYGON ((${polygon}))'`;
+      return `ST_Within (ST_Point (${expression.x}, ${expression.y}), 'POLYGON ((${polygon}))')`;
       //TODO:  make sure if trunc support hour | minite | second | millisec
     case 'trunc':
       return expression.unit === 'day'
