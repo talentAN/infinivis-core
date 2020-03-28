@@ -31,8 +31,7 @@ export declare class InfiniNode<T> {
     children: Array<InfiniNode<T>>;
     protected _transform: Array<T>;
     setTransform(setter: SetTransform<T>): void;
-    set transform(transform: Array<T>);
-    get transform(): Array<T>;
+    transform: Array<T>;
     constructor(params: NodeParams<T>);
     add(params: NodeParams<T>): InfiniNode<T>;
     appendChild(child: InfiniNode<T>): InfiniNode<T>;
