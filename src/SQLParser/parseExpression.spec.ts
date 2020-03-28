@@ -323,10 +323,12 @@ test('st_distance', () => {
       fromlat: '53',
       tolon: 'dropoff_lon',
       tolat: 'dropoff_lat',
-      distance: 365
+      distance: 365,
     })
-  ).toBe(`st_distance(st_transform(st_point(dropoff_lon, dropoff_lat), 'epsg:4326', 'epsg:3857'), st_transform('point(-72 53)', 'epsg:4326', 'epsg:3857')) < 365)`);
-})
+  ).toBe(
+    `ST_Distance (ST_Transform (ST_Point (dropoff_lon, dropoff_lat), 'epsg:4326', 'epsg:3857'), ST_Transform( 'point(-72 53)', 'epsg:4326', 'epsg:3857')) < 365`
+  );
+});
 
 test('st_within', () => {
   expect(
@@ -335,12 +337,10 @@ test('st_within', () => {
       x: 1,
       y: 2,
       px: [3, 4, 5, 6],
-      py: [7, 8, 9, 10]
+      py: [7, 8, 9, 10],
     })
-  ).toBe(
-    `st_within(st_point(1, 2),'polygon((3 7, 4 8, 5 9, 6 10))`
-  )
-})
+  ).toBe(`ST_Within (ST_Point (1, 2), 'POLYGON ((3 7, 4 8, 5 9, 6 10))')`);
+});
 
 test('trunc', () => {
   expect(
@@ -349,16 +349,12 @@ test('trunc', () => {
       unit: 'hour',
       field: 'tpep_dropoff_datetime',
     })
-  ).toBe(
-    `trunc(tpep_dropoff_datetime, hour)`
-  )
+  ).toBe(`trunc(tpep_dropoff_datetime, hour)`);
   expect(
     parseExpression({
       type: 'trunc',
       unit: 'day',
       field: 'tpep_dropoff_datetime',
     })
-  ).toBe(
-    `date(tpep_dropoff_datetime)`
-  )
-})
+  ).toBe(`date(tpep_dropoff_datetime)`);
+});
