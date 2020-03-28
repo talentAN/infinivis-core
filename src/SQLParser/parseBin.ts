@@ -28,7 +28,7 @@ export function parseBin(sql: SQL, transform: Transform) {
     `((${field} >= ${extent[0]} AND ${field} <= ${extent[1]}) OR (${field} IS NULL))`
   );
   sql.having.push(
-    `(${as} >= 0 AND ${as} < ${maxbins}) OR ${as} IS NULL)`
+    `((${as} >= 0 AND ${as} < ${maxbins}) OR ${as} IS NULL)`
   );
   return sql;
 }

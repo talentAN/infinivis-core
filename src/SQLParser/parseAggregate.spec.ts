@@ -79,7 +79,7 @@ test('parseAggregate', () => {
       'max(d) AS asB',
     ],
     having: [
-      `(mycar >= 0 AND mycar < 25) OR mycar IS NULL)`,
+      `((mycar >= 0 AND mycar < 25) OR mycar IS NULL)`,
     ],
     groupby: ['ppp', 'mycar'],
     where: [`((car >= 0 AND car <= 100) OR (car IS NULL))`],

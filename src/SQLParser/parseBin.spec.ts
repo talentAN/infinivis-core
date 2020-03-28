@@ -16,7 +16,7 @@ test('parse bin', () => {
       }
     )
   ).toStrictEqual({
-    having: [`(binColAs >= 0 AND binColAs < 25) OR binColAs IS NULL)`],
+    having: [`((binColAs >= 0 AND binColAs < 25) OR binColAs IS NULL)`],
     select: [
       `CASE WHEN binCol >= 100 THEN 24 else cast((cast(binCol AS float) - 0) * 0.25 AS int) end AS binColAs`,
     ],

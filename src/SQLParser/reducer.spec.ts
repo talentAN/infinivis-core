@@ -51,7 +51,7 @@ test('Parser', () => {
     ],
     groupby: ['binColAs'],
     having: [
-      `(binColAs >= 0 AND binColAs < 12) OR binColAs IS NULL)`,
+      `((binColAs >= 0 AND binColAs < 12) OR binColAs IS NULL)`,
     ],
   });
 });
