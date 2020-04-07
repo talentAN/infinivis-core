@@ -1,6 +1,6 @@
 import { reducer } from './reducer';
 
-function escapeQuotes(string: string) {
+export function escapeQuotes(string: string) {
   if (typeof string === 'string') {
     return string.replace(/'/gi, "''");
   } else {

@@ -14,6 +14,13 @@ test('parse filter', () => {
   ).toStrictEqual({ where: ['(where a > 100)'] });
 
   expect(
+    parseFilter({}, {
+      type: ' ',
+      expr: 'where a > 100',
+    } as any)
+  ).toStrictEqual({});
+
+  expect(
     parseFilter(
       {},
       {

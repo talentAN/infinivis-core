@@ -24,4 +24,15 @@ test('parse project', () => {
       }
     )
   ).toStrictEqual({ select: ['avg(col) AS ass1'] });
+
+
+  expect(
+    parseProject(
+      {},
+      {
+        type: 'project',
+        expr: { type: 'avg', field: 'col' },
+      }
+    )
+  ).toStrictEqual({ select: ['avg(col)'] });
 });
