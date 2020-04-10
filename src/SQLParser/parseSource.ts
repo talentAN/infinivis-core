@@ -1,5 +1,4 @@
 import { SQL, Transform } from '../types';
-import { reduceToString } from './reducer';
 
 const parseJoin = (type: any) => {
   switch (type) {
@@ -21,7 +20,7 @@ const isJoin = (transform: any) =>
   transform.type === 'join.left' ||
   transform.type === 'join.right';
 
-export function parseSource(sql: SQL, transforms: Transform) {
+export function parseSource(sql: SQL, transforms: Transform, reduceToString: Function) {
   if (transforms.type !== 'source') {
     return sql;
   }

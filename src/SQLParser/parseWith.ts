@@ -1,7 +1,6 @@
-import { reduceToString } from './reducer';
 import { SQL, Transform } from '../types';
 
-export function parseWith(sql: SQL, transform: Transform) {
+export function parseWith(sql: SQL, transform: Transform, reduceToString: Function) {
   if (
     !transform ||
     transform.type !== 'with' ||
