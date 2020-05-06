@@ -42,7 +42,7 @@ export function parseExpression(expression: any): string {
     case 'min':
     case 'max':
     case 'sum':
-    // TODO:String Functions
+    // String Functions TODO:
     // Math Functions
     case 'corr':
     case 'covar_pop':
@@ -92,7 +92,6 @@ export function parseExpression(expression: any): string {
     case 'is null':
     case 'is not null':
       return `${expression.field} ${expression.type.toUpperCase()}`;
-
     case 'coalesce':
       return `COALESCE(${expression.values
         .map((field: string) => parseExpression(field))
@@ -156,6 +155,27 @@ export function parseExpression(expression: any): string {
       );
     case 'root':
       return `(${reducer(expression)})`;
+    // Postgis related
+    //TODO: what if tranfrom and special SRID
+    case 'st_astext':
+    case 'st_asbinary':
+    case 'st_geomfromwkb':
+    case 'st_geometryfromtext':
+    case 'st_length':
+    case 'st_perimeter':
+    case 'st_area':
+      return `${expression.type.toUpperCase()}(${expression.field})`;
+    case 'st_distance':
+    case 'st_dwithin':
+      expression.from =
+        expression.from.type === 'const'
+          ? `'${expression.from.value}'`
+          : expression.from.value;
+      expression.to =
+        expression.to.type === 'const'
+          ? `'${expression.to.value}'`
+          : expression.to.value;
+      return `ST_Distance(${expression.from}, ${expression.to})`;
     default:
       return expression;
   }
