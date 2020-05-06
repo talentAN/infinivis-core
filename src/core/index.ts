@@ -1,7 +1,11 @@
 type SetTransform<T> = (transform: Array<T>) => Array<T>;
 type NodeType = 'root' | 'node';
 type Source<T> = string | InfiniNode<T>;
-type Reducer<T> = (node: InfiniNode<T>, acc?: any) => any;
+type Reducer<T> = (
+  node: InfiniNode<T>,
+  acc: any,
+  reduceToString: Function
+) => any;
 type Stringify = (t?: any) => string;
 
 export type NodeParams<T> = {
@@ -93,10 +97,10 @@ export class InfiniNode<T> {
   reduce(node: InfiniNode<T> = this, acc?: any): any {
     if (this.type !== 'root') {
       const source = this.source as InfiniNode<T>;
-      const _acc = this.reducer(this, acc);
+      const _acc = this.reducer(this, acc, this.reduceToString);
       return source.reduce(node, _acc);
     }
-    return this.reducer(this, acc);
+    return this.reducer(this, acc, this.reduceToString);
   }
 
   reduceToString() {

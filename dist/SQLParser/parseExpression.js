@@ -142,16 +142,16 @@ export function parseExpression(expression) {
         case 'circle':
             return `is_in_circle(${expression.fromlon}, ${expression.fromlat}, ${expression.distance}, ${expression.tolon}, ${expression.tolat})`;
         case 'st_distance':
-            return `st_distance(st_transform(st_point(${expression.tolon}, ${expression.tolat}), 'epsg:4326', 'epsg:3857'), st_transform('point(${expression.fromlon} ${expression.fromlat})', 'epsg:4326', 'epsg:3857')) < ${expression.distance})`;
+            return `ST_Distance (ST_Transform (ST_Point (${expression.tolon}, ${expression.tolat}), 'epsg:4326', 'epsg:3857'), ST_Transform( 'point(${expression.fromlon} ${expression.fromlat})', 'epsg:4326', 'epsg:3857')) < ${expression.distance}`;
         case 'st_within':
-            const polygon = expression.px.map((x, index) => `${x} ${expression.py[index]}`).join(', ');
-            return `st_within(st_point(${expression.x}, ${expression.y}),'polygon((${polygon}))`;
+            const polygon = expression.px
+                .map((x, index) => `${x} ${expression.py[index]}`)
+                .join(', ');
+            return `ST_Within (ST_Point (${expression.x}, ${expression.y}), 'POLYGON ((${polygon}))')`;
         case 'trunc':
             return expression.unit === 'day'
                 ? `date(${expression.field})`
                 : `trunc(${expression.field}, ${expression.unit})`;
-        case 'extract':
-            return `${expression.unit}(${expression.field})`;
         case 'project':
             return `${expression.field}`;
         default:

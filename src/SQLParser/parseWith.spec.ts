@@ -1,7 +1,8 @@
 import { parseWith } from './parseWith';
+import { reduceToString } from './reducer';
 
 test('parse project', () => {
-  expect(parseWith({}, {} as any)).toStrictEqual({});
+  expect(parseWith({}, {} as any, reduceToString)).toStrictEqual({});
 
   expect(
     parseWith(
@@ -22,7 +23,8 @@ test('parse project', () => {
             },
           ],
         } as any,
-      }
+      },
+      reduceToString
     )
   ).toStrictEqual({
     with: [

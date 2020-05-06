@@ -13,12 +13,12 @@ export function parseSort(sql: SQL, transform: Transform) {
     return sql;
   }
   sql.orderby = sql.orderby || [];
-  transform.field.forEach((field: any, index: number) => {
+  transform.field.forEach((field: string, index: number) => {
     sql.orderby.push(
       field +
         (Array.isArray(transform.order)
           ? ' ' + ORDER_DIRECTIONS[transform.order[index]]
-          : '')
+          : ' ASC')
     );
   });
   return sql;

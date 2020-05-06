@@ -1,7 +1,8 @@
 import { parseSource } from './parseSource';
+import { reduceToString } from './reducer';
 
 test('parse Source', () => {
-  expect(parseSource({}, {} as any)).toStrictEqual({});
+  expect(parseSource({}, {} as any, reduceToString)).toStrictEqual({});
 
   expect(
     parseSource(
@@ -14,7 +15,8 @@ test('parse Source', () => {
             table: 'map',
           },
         ],
-      }
+      },
+      reduceToString
     )
   ).toStrictEqual({ from: 'map' });
   expect(
@@ -52,7 +54,8 @@ test('parse Source', () => {
             as: 'table3',
           },
         ],
-      }
+      },
+      reduceToString
     )
   ).toStrictEqual({
     from: `cars JOIN tesla AS table1 RIGHT JOIN ford AS table2 LEFT JOIN benz AS table3`,
@@ -94,7 +97,8 @@ test('parse Source', () => {
             as: 'table2',
           },
         ],
-      }
+      },
+      reduceToString
     )
   ).toStrictEqual({
     from:

@@ -30,6 +30,16 @@ test('parse sort', () => {
       {},
       {
         type: 'sort',
+        field: ['col0', 'col1'],
+      }
+    )
+  ).toStrictEqual({ orderby: ['col0 ASC', 'col1 ASC'] });
+
+  expect(
+    parseSort(
+      {},
+      {
+        type: 'sort',
         field: ['col0', 'col1', 'col3'],
         order: ['desc', 'descending'],
       }

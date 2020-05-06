@@ -2,9 +2,6 @@ import { SQLParser } from '.';
 import { SQL, Transform } from '../types';
 
 function _aggregateField(aggFn: string, field: string, as: string): string {
-  if (aggFn === null) {
-    return field;
-  }
   const expression = SQLParser.parseExpression({
     type: aggFn,
     field,
