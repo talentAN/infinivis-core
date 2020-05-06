@@ -37,7 +37,7 @@ export function toSQL(sql: SQL): string {
 }
 
 function writeSelect(select: Array<string> = []): string {
-  return select.length ? 'SELECT ' + select.join(', ') : 'SELECT *';
+  return select.length ? `SELECT ${select.join(', ')}` : `SELECT *`;
 }
 function writeFrom(from: string = ''): string {
   return ' FROM ' + from;

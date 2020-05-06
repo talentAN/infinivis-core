@@ -136,6 +136,7 @@ export function parseExpression(expression: any): string {
     case 'regr_sxy':
     case 'regr_syy':
       return `${expression.type}(${expression.y}, ${expression.x})`;
+    case 'avg':
     case 'min':
     case 'max':
     case 'sum':
@@ -145,34 +146,7 @@ export function parseExpression(expression: any): string {
     case 'bit_and':
     case 'bit_or':
     case 'every':
-    case 'avg':
       return `${expression.type}(${expression.field})`;
-    case 'average':
-      return 'avg(' + expression.field + ')';
-    case 'polygon':
-      return `is_in_polygon(${expression.x}, ${expression.y}, ARRAY[${expression.px}], ARRAY[${expression.py}])`;
-    case 'gis_mapping_lon':
-      return `gis_discrete_trans_scale_long_epsg_4326_900913 (${
-        expression.domainStart
-      }::float, ${expression.domainEnd}::float, ${
-        expression.field
-      }, ${Math.floor(expression.range)})`;
-    case 'gis_mapping_lat':
-      return `gis_discrete_trans_scale_lat_epsg_4326_900913 (${
-        expression.domainStart
-      }::float, ${expression.domainEnd}::float, ${
-        expression.field
-      }, ${Math.floor(expression.range)})`;
-    case 'gis_discrete_trans_scale_w':
-      return `gis_discrete_trans_scale(${expression.domain[0]}, ${
-        expression.domain[1]
-      }, 0, ${expression.width - 1}, ${expression.field}::float)`;
-    case 'gis_discrete_trans_scale_h':
-      return `gis_discrete_trans_scale(${expression.domain[0]}, ${
-        expression.domain[1]
-      }, 0, ${expression.height - 1}, ${expression.field}::float)`;
-    case 'circle':
-      return `is_in_circle(${expression.fromlon}, ${expression.fromlat}, ${expression.distance}, ${expression.tolon}, ${expression.tolat})`;
     case 'st_distance':
       return `ST_Distance (ST_Transform (ST_Point (${expression.tolon}, ${expression.tolat}), 'epsg:4326', 'epsg:3857'), ST_Transform( 'point(${expression.fromlon} ${expression.fromlat})', 'epsg:4326', 'epsg:3857')) < ${expression.distance}`;
     case 'st_within':
@@ -180,10 +154,6 @@ export function parseExpression(expression: any): string {
         .map((x: any, index: number) => `${x} ${expression.py[index]}`)
         .join(', ');
       return `ST_Within (ST_Point (${expression.x}, ${expression.y}), 'POLYGON ((${polygon}))')`;
-    case 'trunc':
-      return expression.unit === 'day'
-        ? `date(${expression.field})`
-        : `trunc(${expression.field}, ${expression.unit})`;
     case 'project':
       return `${expression.field}`;
     default:
