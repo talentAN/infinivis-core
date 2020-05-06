@@ -1,7 +1,7 @@
 import { SQLParser } from '.';
 import { SQL, Transform } from '../types';
 
-function aggregateField(aggFn: string, field: string, as: string): string {
+function _aggregateField(aggFn: string, field: string, as: string): string {
   if (aggFn === null) {
     return field;
   }
@@ -55,7 +55,7 @@ export function parseAggregate(sql: SQL, transform: Transform) {
     transform.fields.forEach((field: string, index: number) => {
       const as = transform.as[index];
       sql.select = sql.select || [];
-      sql.select.push(aggregateField(transform.ops[index], field, as));
+      sql.select.push(_aggregateField(transform.ops[index], field, as));
     });
   }
 

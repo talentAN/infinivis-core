@@ -1,11 +1,17 @@
 import { reducer } from './reducer';
 
-function escapeQuotes(string: string) {
+type Expression = { [propName: string]: any };
+function _escapeQuotes(string: string) {
   if (typeof string === 'string') {
     return string.replace(/'/gi, "''");
   } else {
     return string;
   }
+}
+function _flatExpression(key: string, expression: Expression) {
+  return typeof expression[key] === 'string'
+    ? `'${expression[key]}'`
+    : expression[key];
 }
 
 export function parseExpression(expression: any): string {
@@ -16,37 +22,77 @@ export function parseExpression(expression: any): string {
     return 'NULL';
   }
   switch (expression.type) {
+    // 'project means no expression type is involved in
+    case 'project':
+      return `${expression.field}`;
+    // Date Functions
+    case 'age':
+      expression.end = expression.end ? `${expression.end}, ` : '';
+      return `age(${expression.end} ${expression.start})`;
+    case 'date_trunc':
+      return `date_trunc('${expression.unit}', ${expression.field})`;
+    case 'extract':
+      return `extract(${expression.unit} from ${expression.field})`;
+    // Aggregate Functions
+    case 'count':
+      return expression.distinct
+        ? `count(distinct ${expression.field})`
+        : `count(${expression.field})`;
+    case 'avg':
+    case 'min':
+    case 'max':
+    case 'sum':
+    // TODO:String Functions
+    // Math Functions
+    case 'corr':
+    case 'covar_pop':
+    case 'covar_samp':
+    case 'regr_avgx':
+    case 'regr_avgy':
+    case 'regr_count':
+    case 'regr_intercept':
+    case 'regr_r2':
+    case 'regr_slope':
+    case 'regr_sxx':
+    case 'regr_sxy':
+    case 'regr_syy':
+      return `${expression.type}(${expression.y}, ${expression.x})`;
+    case 'stddev':
+    case 'stddev_pop':
+    case 'stddev_samp':
+    case 'var_pop':
+    case 'var_samp':
+      return `${expression.type}(${parseExpression(expression.expr)})`;
+    case 'sqrt':
+    case 'sample':
+    case 'bool_and':
+    case 'bool_or':
+    case 'bit_and':
+    case 'bit_or':
+    case 'array_agg':
+    case 'string_agg':
+    case 'every':
+      return `${expression.type}(${expression.field})`;
+    // CONDITIONS
     case '=':
     case '<>':
     case '<':
     case '>':
     case '<=':
     case '>=':
-      return `${expression.left} ${expression.type} ${
-        typeof expression.right === 'string'
-          ? `'${expression.right}'`
-          : expression.right
-      }`;
+      expression.right = _flatExpression('right', expression);
+      return `${expression.left} ${expression.type} ${expression.right}`;
     case 'between':
     case 'not between':
+      expression.left = _flatExpression('left', expression);
+      expression.right = _flatExpression('right', expression);
       return `${expression.field} ${expression.type.toUpperCase()} ${
-        typeof expression.left === 'string'
-          ? `'${expression.left}'`
-          : expression.left
-      } AND ${
-        typeof expression.right === 'string'
-          ? `'${expression.right}'`
-          : expression.right
-      }`;
+        expression.left
+      } AND ${expression.right}`;
     case 'is null':
     case 'is not null':
       return `${expression.field} ${expression.type.toUpperCase()}`;
-    case 'ilike':
-    case 'like':
-    case 'not like':
-      return `${expression.left} ${expression.type.toUpperCase()} '%${
-        expression.right
-      }%'`;
+
     case 'coalesce':
       return `COALESCE(${expression.values
         .map((field: string) => parseExpression(field))
@@ -61,7 +107,7 @@ export function parseExpression(expression: any): string {
           ' (' +
           expression.set
             .map((field: number | string) =>
-              typeof field === 'number' ? field : `'${escapeQuotes(field)}'`
+              typeof field === 'number' ? field : `'${_escapeQuotes(field)}'`
             )
             .join(', ') +
           ')'
@@ -90,6 +136,13 @@ export function parseExpression(expression: any): string {
       )} ${expression.type.toUpperCase()} ${parseExpression(
         expression.right
       )})`;
+    // Pattern Matching
+    case 'ilike':
+    case 'like':
+    case 'not like':
+      return `${expression.left} ${expression.type.toUpperCase()} '%${
+        expression.right
+      }%'`;
     case 'case':
       const elseCase =
         expression.else === null ? 'NULL' : `'${expression.else}'`;
@@ -101,61 +154,8 @@ export function parseExpression(expression: any): string {
         (typeof expression.else !== 'undefined' ? ` ELSE ${elseCase}` : '') +
         ' END'
       );
-    case 'date_trunc':
-      return `date_trunc('${expression.unit}', ${expression.field})`;
-    case 'extract':
-      return `extract(${expression.unit} from ${expression.field})`;
     case 'root':
       return `(${reducer(expression)})`;
-    case 'count':
-      if (expression.distinct && expression.approx) {
-        return `approx_count_distinct(${expression.field})`;
-      } else if (expression.distinct) {
-        return `count(distinct ${expression.field})`;
-      } else {
-        return `count(${expression.field})`;
-      }
-    case 'unique':
-      return `count(distinct ${expression.field})`;
-    case 'stddev':
-    case 'stddev_pop':
-    case 'stddev_samp':
-    case 'var_pop':
-    case 'var_samp':
-      return `${expression.type}(${parseExpression(expression.expr)})`;
-    case 'corr':
-    case 'covar_pop':
-    case 'covar_samp':
-    case 'regr_avgx':
-    case 'regr_avgy':
-    case 'regr_count':
-    case 'regr_intercept':
-    case 'regr_r2':
-    case 'regr_slope':
-    case 'regr_sxx':
-    case 'regr_sxy':
-    case 'regr_syy':
-      return `${expression.type}(${expression.y}, ${expression.x})`;
-    case 'avg':
-    case 'min':
-    case 'max':
-    case 'sum':
-    case 'sample':
-    case 'bool_and':
-    case 'bool_or':
-    case 'bit_and':
-    case 'bit_or':
-    case 'every':
-      return `${expression.type}(${expression.field})`;
-    case 'st_distance':
-      return `ST_Distance (ST_Transform (ST_Point (${expression.tolon}, ${expression.tolat}), 'epsg:4326', 'epsg:3857'), ST_Transform( 'point(${expression.fromlon} ${expression.fromlat})', 'epsg:4326', 'epsg:3857')) < ${expression.distance}`;
-    case 'st_within':
-      const polygon = expression.px
-        .map((x: any, index: number) => `${x} ${expression.py[index]}`)
-        .join(', ');
-      return `ST_Within (ST_Point (${expression.x}, ${expression.y}), 'POLYGON ((${polygon}))')`;
-    case 'project':
-      return `${expression.field}`;
     default:
       return expression;
   }
