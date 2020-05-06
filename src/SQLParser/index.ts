@@ -55,3 +55,5 @@ export class SQLParser {
     return sql;
   }
 }
+
+export { reducer, reduceToString, toSQL };

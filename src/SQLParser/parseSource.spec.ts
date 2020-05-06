@@ -84,7 +84,7 @@ test('parse Source', () => {
                 type: 'aggregate',
                 groupby: ['dest_city'],
                 fields: ['depdelay'],
-                ops: ['average'],
+                ops: ['avg'],
                 as: ['val'],
               },
             ],

@@ -17,7 +17,7 @@ test('parse project', () => {
               type: 'aggregate',
               groupby: ['dest_city'],
               fields: ['depdelay'],
-              ops: ['average'],
+              ops: ['avg'],
               as: ['val'],
             },
           ],

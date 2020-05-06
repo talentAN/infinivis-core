@@ -239,122 +239,38 @@ test('avg, bit_and, bit_or, bool_and, bool_or, every, max, sum', () => {
   expect(parseExpression({ type: 'max', field: 'col' })).toBe(`max(col)`);
   expect(parseExpression({ type: 'min', field: 'col' })).toBe(`min(col)`);
   expect(parseExpression({ type: 'sum', field: 'col' })).toBe(`sum(col)`);
-  expect(parseExpression({ type: 'average', field: 'col' })).toBe(`avg(col)`);
+  expect(parseExpression({ type: 'avg', field: 'col' })).toBe(`avg(col)`);
 });
 
 test('project', () => {
   expect(parseExpression({ type: 'project', field: 'col' })).toBe(`col`);
 });
 
-test('polygon', () => {
-  expect(parseExpression({ type: 'polygon', x: 1, y: 2, px: 3, py: 4 })).toBe(
-    `is_in_polygon(1, 2, ARRAY[3], ARRAY[4])`
+test('st_astext,st_asbinary,st_geomfromwkb,st_geometryfromtext,st_length,st_perimeter,st_area', () => {
+  expect(parseExpression({ type: 'st_astext', field: 'col' })).toBe(
+    `ST_ASTEXT(col)`
+  );
+  expect(parseExpression({ type: 'st_geomfromwkb', field: 'col' })).toBe(
+    `ST_GEOMFROMWKB(col)`
+  );
+  expect(parseExpression({ type: 'st_area', field: 'col' })).toBe(
+    `ST_AREA(col)`
   );
 });
 
-test('gis_mapping_lon', () => {
-  expect(
-    parseExpression({
-      type: 'gis_mapping_lon',
-      domainStart: 1,
-      domainEnd: 2,
-      field: 'col',
-      range: 100,
-    })
-  ).toBe(
-    `gis_discrete_trans_scale_long_epsg_4326_900913 (1::float, 2::float, col, 100)`
-  );
-});
-
-test('gis_mapping_lat', () => {
-  expect(
-    parseExpression({
-      type: 'gis_mapping_lat',
-      domainStart: 1,
-      domainEnd: 2,
-      field: 'col',
-      range: 100,
-    })
-  ).toBe(
-    `gis_discrete_trans_scale_lat_epsg_4326_900913 (1::float, 2::float, col, 100)`
-  );
-});
-
-test('gis_discrete_trans_scale_w', () => {
-  expect(
-    parseExpression({
-      type: 'gis_discrete_trans_scale_w',
-      domain: [0, 1],
-      field: 'col',
-      width: 100,
-    })
-  ).toBe(`gis_discrete_trans_scale(0, 1, 0, 99, col::float)`);
-});
-
-test('gis_discrete_trans_scale_h', () => {
-  expect(
-    parseExpression({
-      type: 'gis_discrete_trans_scale_h',
-      domain: [0, 1],
-      field: 'col',
-      height: 100,
-    })
-  ).toBe(`gis_discrete_trans_scale(0, 1, 0, 99, col::float)`);
-});
-
-test('circle', () => {
-  expect(
-    parseExpression({
-      type: 'circle',
-      fromlon: 'colLon',
-      fromlat: 'colLat',
-      distance: 1000,
-      tolon: '123',
-      tolat: '2123',
-    })
-  ).toBe(`is_in_circle(colLon, colLat, 1000, 123, 2123)`);
-});
-
-test('st_distance', () => {
+test('st_distance,st_dwithin', () => {
   expect(
     parseExpression({
       type: 'st_distance',
-      fromlon: '-72',
-      fromlat: '53',
-      tolon: 'dropoff_lon',
-      tolat: 'dropoff_lat',
-      distance: 365,
+      from: { field: 'col1' },
+      to: { field: 'col2' },
     })
-  ).toBe(
-    `ST_Distance (ST_Transform (ST_Point (dropoff_lon, dropoff_lat), 'epsg:4326', 'epsg:3857'), ST_Transform( 'point(-72 53)', 'epsg:4326', 'epsg:3857')) < 365`
-  );
-});
-
-test('st_within', () => {
+  ).toBe(`ST_DISTANCE(col1, col2)`);
   expect(
     parseExpression({
-      type: 'st_within',
-      x: 1,
-      y: 2,
-      px: [3, 4, 5, 6],
-      py: [7, 8, 9, 10],
+      type: 'st_dwithin',
+      from: { field: 'col1' },
+      to: { field: 'col2' },
     })
-  ).toBe(`ST_Within (ST_Point (1, 2), 'POLYGON ((3 7, 4 8, 5 9, 6 10))')`);
-});
-
-test('trunc', () => {
-  expect(
-    parseExpression({
-      type: 'trunc',
-      unit: 'hour',
-      field: 'tpep_dropoff_datetime',
-    })
-  ).toBe(`trunc(tpep_dropoff_datetime, hour)`);
-  expect(
-    parseExpression({
-      type: 'trunc',
-      unit: 'day',
-      field: 'tpep_dropoff_datetime',
-    })
-  ).toBe(`date(tpep_dropoff_datetime)`);
+  ).toBe(`ST_DWITHIN(col1, col2)`);
 });

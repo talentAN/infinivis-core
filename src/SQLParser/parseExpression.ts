@@ -42,6 +42,7 @@ export function parseExpression(expression: any): string {
     case 'min':
     case 'max':
     case 'sum':
+      return `${expression.type}(${expression.field})`;
     // String Functions TODO:
     // Math Functions
     case 'corr':
@@ -169,13 +170,15 @@ export function parseExpression(expression: any): string {
     case 'st_dwithin':
       expression.from =
         expression.from.type === 'const'
-          ? `'${expression.from.value}'`
-          : expression.from.value;
+          ? `'${expression.from.field}'`
+          : expression.from.field;
       expression.to =
         expression.to.type === 'const'
-          ? `'${expression.to.value}'`
-          : expression.to.value;
-      return `ST_Distance(${expression.from}, ${expression.to})`;
+          ? `'${expression.to.field}'`
+          : expression.to.field;
+      return `${expression.type.toUpperCase()}(${expression.from}, ${
+        expression.to
+      })`;
     default:
       return expression;
   }
