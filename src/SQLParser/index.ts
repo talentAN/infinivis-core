@@ -11,13 +11,9 @@ import { parseWith } from './parseWith';
 import { parseHaving } from './parseHaving';
 import { parseSource } from './parseSource';
 import { SQL, Transform, Expression } from '../types';
-import { reducer, toSQL, reduceToString } from './reducer';
+import { reducer, toSQL } from './reducer';
 
-export type TransformParser = (
-  sql: SQL,
-  acc: Transform,
-  reduceToString: Function
-) => SQL;
+export type TransformParser = (sql: SQL, acc: Transform) => SQL;
 export type ExpressionParser = (expr: string | Expression) => string;
 export type expressions = { [key: string]: ExpressionParser };
 export type transformers = { [key: string]: TransformParser };
@@ -52,16 +48,12 @@ export class SQLParser {
     return parseExpression(expression);
   }
 
-  static parseTransform(
-    sql: SQL,
-    transform: Transform,
-    _reduceToString: Function = reduceToString
-  ): SQL {
+  static parseTransform(sql: SQL, transform: Transform): SQL {
     if (typeof transformers[transform.type] !== 'undefined') {
-      return transformers[transform.type](sql, transform, reduceToString);
+      return transformers[transform.type](sql, transform);
     }
     return sql;
   }
 }
 
-export { reducer, toSQL, reduceToString };
+export { reducer, toSQL };
